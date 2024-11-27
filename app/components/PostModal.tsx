@@ -1,18 +1,17 @@
 'use client'
 
+import { useTriggerStore } from "@/store/useTriggerStore";
 import axiosInstance from "@/utils/axiosInstance";
 import { useState } from "react";
 
-interface PostModalProps {
-    isOpen: boolean;
-    handleClose: () => void;
-}
 
-export default function PostModal({ isOpen, handleClose }: PostModalProps) {
-    const [title, setTitle] = useState<string>(''); 
-    const [content, setContent] = useState<string>(''); 
+
+export default function PostModal() {
+    const { isModalOpen, setIsModalOpen: handleClose } = useTriggerStore();
+    const [title, setTitle] = useState<string>('');
+    const [content, setContent] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string>(''); 
+    const [error, setError] = useState<string>('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -24,11 +23,11 @@ export default function PostModal({ isOpen, handleClose }: PostModalProps) {
                 title,
                 content
             });
-            
+
             const data = response.data;
 
             console.log('Post created:', data);
-            handleClose(); 
+            handleClose(true);
 
             setTitle('');
             setContent('');
@@ -39,53 +38,54 @@ export default function PostModal({ isOpen, handleClose }: PostModalProps) {
         }
     };
 
-    if (!isOpen) return null;  // If modal is not open, don't render it
+    if (!isModalOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-                <h2 className="text-xl mb-4">Add New Post</h2>
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white p-6 rounded-lg w-96 shadow-lg transform translate-y-0">
+                <h2 className="text-xl font-semibold mb-4">Create a Post</h2>
+                {error && <p className="text-red-500 mb-4">{error}</p>}
+
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label htmlFor="title" className="block text-sm font-semibold mb-2">Title</label>
+                        <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title:</label>
                         <input
                             type="text"
                             id="title"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded-md"
                             required
+                            className="w-full p-2 mt-1 border border-gray-300 rounded-md"
+                            placeholder="Enter post title"
                         />
                     </div>
 
                     <div className="mb-4">
-                        <label htmlFor="content" className="block text-sm font-semibold mb-2">Content</label>
+                        <label htmlFor="content" className="block text-sm font-medium text-gray-700">Content:</label>
                         <textarea
                             id="content"
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded-md"
-                            rows={4}
                             required
-                        ></textarea>
+                            className="w-full p-2 mt-1 border border-gray-300 rounded-md"
+                            placeholder="Enter post content"
+                        />
                     </div>
 
-                    {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-
-                    <div className="flex justify-between gap-2">
-                        <button
-                            type="button"
-                            onClick={handleClose}
-                            className="px-4 py-2 bg-gray-400 text-white rounded-lg"
-                        >
-                            Cancel
-                        </button>
+                    <div className="flex justify-between mt-4">
                         <button
                             type="submit"
                             disabled={loading}
-                            className={`px-4 py-2 rounded-lg ${loading ? 'bg-gray-300' : 'bg-blue-500'} text-white`}
+                            className="bg-blue-500 text-white px-4 py-2 rounded-md disabled:bg-gray-300"
                         >
                             {loading ? 'Submitting...' : 'Submit'}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => handleClose(false)}
+                            className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md"
+                        >
+                            Cancel
                         </button>
                     </div>
                 </form>

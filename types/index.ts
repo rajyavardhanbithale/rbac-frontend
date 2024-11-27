@@ -1,10 +1,10 @@
-interface Author {
+export interface Author {
     _id: string;
     name: string;
     email: string;
 }
 
-interface Post {
+export interface Post {
     _id: string;
     title: string;
     content: string;
@@ -14,7 +14,7 @@ interface Post {
 }
 
 
-interface Comment {
+export interface Comment {
     _id: string;
     content: string;
     userId: {
@@ -23,7 +23,7 @@ interface Comment {
     };
 }
 
-interface Post {
+export interface Post {
     _id: string;
     title: string;
     content: string;
@@ -34,4 +34,29 @@ interface Post {
     };
     createdAt: string;
     updatedAt: string;
+}
+
+export interface UserInfo {
+    name: string;
+    email: string;
+}
+
+export interface userData {
+    userInfo: UserInfo;
+    role: string;
+    permissions: string[];
+}
+
+export interface StatsUser {
+    role: string;
+    count: number;
+}
+
+export interface DashboardData {
+    userData: userData;
+    filteredStatsUser: StatsUser[];
+    postCount: number;
+    commentsCount: number;
+    role?: string;
+    post?: Post[];
 }

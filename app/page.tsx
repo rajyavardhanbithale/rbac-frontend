@@ -1,14 +1,19 @@
+
 import Link from "next/link";
 import PostCard from "./components/PostCard";
+import { BASE_API_URL } from "@/utils/base";
+import { Post } from "@/types";
 
 export default async function Home() {
 
-  const resp = await fetch('http://localhost:3000/api/posts')
+  const resp = await fetch(`${BASE_API_URL}/posts`)
   const posts = await resp.json()
 
 
+
+
   return (
-    <div className="container mx-auto p-5">
+    <div className="container mx-auto p-5 mt-24">
       <div className="text-center mb-10">
         <h1 className="text-4xl font-extrabold text-gray-900 leading-tight tracking-wide">
           Welcome to the Post Showcase
@@ -25,6 +30,7 @@ export default async function Home() {
           </Link>
         ))}
       </div>
+      
     </div>
   );
 }
