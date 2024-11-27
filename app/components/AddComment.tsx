@@ -1,5 +1,7 @@
 'use client'
 
+import { useAuthStore } from '@/store/useAuthStore';
+import { Comment } from '@/types';
 import axiosInstance from '@/utils/axiosInstance';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -8,6 +10,7 @@ export default function AddComment({ postId }: { postId: string }) {
     const [newComment, setNewComment] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [comments, setComments] = useState<Comment[]>([]);
+    const { role } = useAuthStore();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,7 +26,6 @@ export default function AddComment({ postId }: { postId: string }) {
             if (response.status === 201) {
                 setNewComment('');
                 toast.success('Comment submitted successfully!');
-                // Refetch comments after successfully posting a new comment
                 fetchComments();
             }
         } catch (error: any) {
@@ -49,9 +51,12 @@ export default function AddComment({ postId }: { postId: string }) {
             <h2 className="text-2xl font-semibold text-gray-800">Comments</h2>
             <div className="space-y-3">
                 {comments?.map((comment) => (
-                    <div key={comment._id} className="p-4 bg-gray-100 rounded-lg shadow-sm">
+                    <div key={comment._id} className="relative p-4 bg-gray-100 rounded-lg shadow-sm">
                         <p className="text-gray-800 font-medium">{comment.userId.name}</p>
                         <p className="text-gray-600">{comment.content}</p>
+                        {role !== 'user' && (
+                            <div className="bg-red-500 text-xl rounded-full px-2 w-fit text-white font-semibold absolute top-2 right-2">X</div>
+                        )}
                     </div>
                 ))}
             </div>
