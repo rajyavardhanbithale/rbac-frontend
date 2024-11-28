@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Navbar from "./components/Navbar";
-import { poppins } from "@/utils/fonts";
+// import { poppins } from "@/utils/fonts";
 import useCookieStore from "@/store/useCookieStore";
 import { useEffect } from "react";
 
@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} antialiased`}
+        className={`antialiased`}
       >
         <Toaster />
       
