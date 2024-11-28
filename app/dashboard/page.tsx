@@ -6,13 +6,11 @@ import axiosInstance from "@/utils/axiosInstance";
 import UserDashboard from "../components/dashboard/UserDashboard";
 import AdminModeratorDashboard from "../components/dashboard/AdminModeratorDashboard";
 import { DashboardData, userData } from "@/types";
-import Cookies from "js-cookie";
 import { useAuthStore } from "@/store/useAuthStore";
 import Link from "next/link";
 import ChangeUserRole from "../components/dashboard/ChangeUserRoles";
 import PostModal from "../components/PostModal";
 import { useTriggerStore } from "@/store/useTriggerStore";
-
 
 export default function Dashboard() {
     const [userData, setUserData] = useState<DashboardData | null>(null);
@@ -41,15 +39,14 @@ export default function Dashboard() {
     if (error) return <div>{error}</div>;
 
 
-    const handleLogout = () => {
-        Cookies.remove('token');
-        setToken(null);
+    const handleLogout =  async () => {
+        await axiosInstance.post('/auth/logout');
         window.location.href = '/login';
     };
 
     return (
         <>
-            <div className="flex h-screen">
+            <div className="flex lg:h-screen">
                 <nav className="bg-gray-800 text-white w-[15%] p-6 hidden sm:block fixed h-screen">
                     <h2 className="text-xl font-semibold mb-4">Dashboard</h2>
                     <ul>
@@ -81,7 +78,8 @@ export default function Dashboard() {
                     </ul>
                 </nav>
 
-                <div className="w-[85%] ml-auto flex justify-center">
+                <div className="w-full mt-20 lg:mt-0 lg:w-[85%] lg:ml-auto flex flex-col lg:flex-row justify-center">
+                    
                     {userData?.userData?.role === 'user' &&
                         <UserDashboard
                             userInfo={userData?.userData}
@@ -96,9 +94,17 @@ export default function Dashboard() {
                         />
                     }
 
-                    {(userData?.userData?.role === 'admin' && page === 'permissions') && (
-                        <ChangeUserRole />
-                    )}
+                    <div className="hidden lg:flex">
+                        {(userData?.userData?.role === 'admin' && page === 'permissions') && (
+                            <ChangeUserRole />
+                        )}
+                    </div>
+
+                    <div className="lg:hidden flex">
+                        {(userData?.userData?.role === 'admin') && (
+                            <ChangeUserRole />
+                        )}
+                    </div>
                 </div>
             </div>
             <PostModal />

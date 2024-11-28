@@ -32,8 +32,8 @@ export default function Navbar() {
 
 
     return (
-        <div className={`${isHidden ? "hidden" : "flex"}  justify-center`}>
-            <nav className="block absolute w-1/2 px-4 py-2 mx-auto text-white bg-slate-900 bg-opacity-90 backdrop-blur-xl shadow-md rounded-2xl lg:px-8 lg:py-3 mt-5">
+        <div className={`${isHidden ? "lg:hidden flex" : "flex"}  justify-center`}>
+            <nav className="block absolute lg:w-1/2 px-4 py-2 mx-auto text-white bg-slate-900 bg-opacity-90 backdrop-blur-xl shadow-md rounded-2xl lg:px-8 lg:py-3 mt-5">
                 <div className="flex flex-wrap items-center justify-between mx-auto text-gray-100">
                     <Link
                         href="/"

@@ -10,10 +10,10 @@ export default function UserDashboard({ userInfo, post }: { userInfo: userData, 
 
     return (
 
-        <main className="flex-1 p-8">
+        <main className="flex-1 p-6">
             <section>
                 <h2 className="text-2xl font-semibold mb-6">My Posts</h2>
-                <div className="flex flex-wrap space-x-5">
+                <div className="flex flex-wrap gap-5">
                     {post?.map((p) => (
                         <Link
                             href={`post/${p._id}`}

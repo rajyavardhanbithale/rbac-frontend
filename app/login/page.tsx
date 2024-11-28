@@ -7,6 +7,7 @@ import axiosInstance from '@/utils/axiosInstance';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
+import Link from 'next/link';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -63,7 +64,7 @@ export default function Login() {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                                 autoComplete="email"
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                                className="px-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                             />
                         </div>
                     </div>
@@ -88,7 +89,7 @@ export default function Login() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                                 autoComplete="current-password"
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                                className="px-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                             />
                         </div>
                     </div>
@@ -105,10 +106,10 @@ export default function Login() {
                 </form>
 
                 <p className="mt-10 text-center text-sm/6 text-gray-500">
-                    Don’t have an account?{" "}
-                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                    Don&apos;t have an account?{" "}
+                    <Link href="/register" className="font-semibold text-indigo-600 hover:text-indigo-500">
                         Register here
-                    </a>
+                    </Link>
                 </p>
             </div>
         </div>
