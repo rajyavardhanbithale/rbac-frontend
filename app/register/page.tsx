@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { jockeyOne } from "../../utils/fonts";
+// import { jockeyOne } from "../../utils/fonts";
 import axiosInstance from '@/utils/axiosInstance';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -43,7 +43,7 @@ export default function Login() {
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 h-screen">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center">
-                <span className={`${jockeyOne.className} text-4xl`}>
+                <span className={`text-4xl`}>
                     RBAC
                 </span>
                 <h2 className="mt-5 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
