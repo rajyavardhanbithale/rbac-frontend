@@ -1,1 +1,1 @@
-export const BASE_API_URL = 'http://localhost:8000/api';
+export const BASE_API_URL = 'http://ec2-34-207-254-156.compute-1.amazonaws.com/api';
