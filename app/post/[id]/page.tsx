@@ -4,7 +4,9 @@ import { BASE_API_URL } from "@/utils/base";
 
 export default async function Page({ params }: { params: { id: string } }) {
 
-  const { id } = await params;
+  const { id } = params;
+
+  if(!id)  return <div>Post not found</div>;
 
   const response = await fetch(`${BASE_API_URL}/posts/${id}`);
   const post = await response.json() as Post;
