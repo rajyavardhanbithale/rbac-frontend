@@ -1,27 +1,60 @@
+'use client'
+
 import AddComment from "@/app/components/AddComment";
 import { Post } from "@/types";
 import { BASE_API_URL } from "@/utils/base";
+import { useEffect, useState } from "react";
 
-export default async function Page({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
 
-  const { id } = params;
+export default function Page({ params }: PageProps) {
+  const [id, setId] = useState<string | null>(null);
+  const [post, setPost] = useState<Post | null>(null);
 
-  if(!id)  return <div>Post not found</div>;
 
-  const response = await fetch(`${BASE_API_URL}/posts/${id}`);
-  const post = await response.json() as Post;
+  useEffect(() => {
+    const fetchParams = async () => {
+      const unwrappedParams = await params;
+      if (unwrappedParams && unwrappedParams.id) {
+        setId(unwrappedParams.id);
+      }
+    };
+
+    fetchParams();
+  }, [params]);
+
+  useEffect(() => {
+    if (id) {
+      const fetchPost = async () => {
+        const response = await fetch(`${BASE_API_URL}/posts/${id}`);
+        const data = await response.json();
+        setPost(data);
+      };
+      fetchPost();
+    }
+  }, [id]);
+
+
+  if (!post) return <div>Loading...</div>;
 
   return (
     <div className="max-w-4xl mx-auto p-5 space-y-10 mt-28">
       <div className="space-y-4">
         <h1 className="text-4xl font-bold text-gray-800">{post.title}</h1>
-        <p className="text-sm text-gray-500">By {post.authorID.name} | {new Date(post.createdAt).toLocaleDateString()}</p>
+        <p className="text-sm text-gray-500">
+          By {post.authorID.name} | {new Date(post.createdAt).toLocaleDateString()}
+        </p>
         <p className="text-lg text-gray-700">{post.content}</p>
       </div>
 
       <div className="space-y-4">
-        <AddComment postId={id} />
+        {id && (
+
+          <AddComment postId={id} />
+        )}
       </div>
     </div>
-  )
+  );
 }
