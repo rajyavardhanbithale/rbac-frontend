@@ -4,23 +4,35 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { useAuthStore } from "@/store/useAuthStore";
+import { usePathname } from "next/navigation";
+
 
 export default function Navbar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isHidden, setIsHidden] = useState(false);
     const { token, setToken } = useAuthStore();
+    const pathname = usePathname()
 
 
     useEffect(() => {
-        if (token !== "null") {
+        if (token !== null && token !== undefined) {
             setIsLoggedIn(true);
         } else {
             setIsLoggedIn(false);
         }
     }, [token]);
 
+    useEffect(() => {
+        if (pathname === "/login" || pathname === "/register" || pathname === "/dashboard") {
+            setIsHidden(true);
+        } else {
+            setIsHidden(false);
+        }
+    }, [pathname]);
+
 
     return (
-        <div className="flex justify-center">
+        <div className={`${isHidden ? "hidden" : "flex"}  justify-center`}>
             <nav className="block absolute w-1/2 px-4 py-2 mx-auto text-white bg-slate-900 bg-opacity-90 backdrop-blur-xl shadow-md rounded-2xl lg:px-8 lg:py-3 mt-5">
                 <div className="flex flex-wrap items-center justify-between mx-auto text-gray-100">
                     <Link

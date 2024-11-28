@@ -1,5 +1,5 @@
+'use client'
 import { DashboardData } from "@/types";
-import React from "react";
 
 export default function AdminModeratorDashboard({
     data,

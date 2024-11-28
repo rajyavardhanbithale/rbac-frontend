@@ -1,15 +1,23 @@
-
+'use client'
 import Link from "next/link";
 import PostCard from "./components/PostCard";
 import { BASE_API_URL } from "@/utils/base";
 import { Post } from "@/types";
+import { useEffect, useState } from "react";
+import axiosInstance from "@/utils/axiosInstance";
 
-export default async function Home() {
-
-  const resp = await fetch(`${BASE_API_URL}/posts`)
-  const posts = await resp.json()
+export default function Home() {
+  const [posts, setPosts] = useState<Post[]>([]);
 
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await axiosInstance.get(`/posts`);
+      setPosts(response.data);
+    };
+
+    fetchPosts();
+  }, []);
 
 
   return (
@@ -30,7 +38,7 @@ export default async function Home() {
           </Link>
         ))}
       </div>
-      
+
     </div>
   );
 }

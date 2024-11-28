@@ -9,6 +9,9 @@ import { DashboardData, userData } from "@/types";
 import Cookies from "js-cookie";
 import { useAuthStore } from "@/store/useAuthStore";
 import Link from "next/link";
+import ChangeUserRole from "../components/dashboard/ChangeUserRoles";
+import PostModal from "../components/PostModal";
+import { useTriggerStore } from "@/store/useTriggerStore";
 
 
 export default function Dashboard() {
@@ -16,6 +19,8 @@ export default function Dashboard() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const { token, setToken } = useAuthStore();
+    const [page, setPage] = useState<string>('home');
+    const { setIsModalOpen } = useTriggerStore()
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -45,19 +50,38 @@ export default function Dashboard() {
     return (
         <>
             <div className="flex h-screen">
-                <nav className="bg-gray-800 text-white w-64 p-6 hidden sm:block">
+                <nav className="bg-gray-800 text-white w-[15%] p-6 hidden sm:block fixed h-screen">
                     <h2 className="text-xl font-semibold mb-4">Dashboard</h2>
                     <ul>
                         <li className="mb-3">
-                            <Link href="/" className="hover:bg-gray-700 p-2 rounded">Home</Link>
+                            <Link href="/" className="cursor-pointer hover:bg-gray-700 p-2 rounded">Home</Link>
                         </li>
+                        {userData?.userData?.role === 'admin' && (
+                            <>
+                                <li className="mb-3">
+                                    <span
+                                        onClick={() => setPage('home')}
+                                        className="cursor-pointer hover:bg-gray-700 p-2 rounded">Stats</span>
+                                </li>
+                                <li className="mb-3">
+                                    <span
+                                        onClick={() => setPage('permissions')}
+                                        className="cursor-pointer hover:bg-gray-700 p-2 rounded">Permission</span>
+                                </li>
+                            </>
+                        )}
+
+                        <li className="mb-3">
+                            <span onClick={() => setIsModalOpen(true)} className="cursor-pointer hover:bg-gray-700 p-2 rounded">Create Post</span>
+                        </li>
+
                         <li>
-                            <span onClick={handleLogout} className="hover:bg-gray-700 p-2 rounded">Logout</span>
+                            <span onClick={handleLogout} className="cursor-pointer hover:bg-gray-700 p-2 rounded">Logout</span>
                         </li>
                     </ul>
                 </nav>
 
-                <div className="w-full">
+                <div className="w-[85%] ml-auto flex justify-center">
                     {userData?.userData?.role === 'user' &&
                         <UserDashboard
                             userInfo={userData?.userData}
@@ -65,14 +89,19 @@ export default function Dashboard() {
                         />
                     }
 
-                    {userData?.userData?.role === 'moderator' &&
+                    {(userData?.userData?.role === 'moderator' || userData?.userData?.role === 'admin') &&
+                        page === 'home' &&
                         <AdminModeratorDashboard
                             data={userData}
                         />
-
                     }
+
+                    {(userData?.userData?.role === 'admin' && page === 'permissions') && (
+                        <ChangeUserRole />
+                    )}
                 </div>
             </div>
+            <PostModal />
         </>
     )
 }

@@ -4,7 +4,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { jockeyOne } from "../../utils/fonts";
 import axiosInstance from '@/utils/axiosInstance';
-import cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
 
