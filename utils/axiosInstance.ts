@@ -72,7 +72,7 @@ const startPollingForRefreshToken = async () => {
     }
 
    
-    const response = await axiosInstance.post('/auth//refresh-token', { refreshToken });
+    const response = await axiosInstance.post('/auth/refresh-token', { refreshToken });
 
     if (response.status === 200 && response.data.accessToken) {
   

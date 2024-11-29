@@ -5,6 +5,7 @@ import { BASE_API_URL } from "@/utils/base";
 import { Post } from "@/types";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
+import Loading from "./components/Loading";
 
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -18,6 +19,8 @@ export default function Home() {
 
     fetchPosts();
   }, []);
+
+  if(!posts.length) return <Loading />;
 
 
   return (

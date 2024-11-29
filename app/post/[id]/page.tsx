@@ -1,6 +1,7 @@
 'use client'
 
 import AddComment from "@/app/components/AddComment";
+import Loading from "@/app/components/Loading";
 import { Post } from "@/types";
 import { BASE_API_URL } from "@/utils/base";
 import { useEffect, useState } from "react";
@@ -37,7 +38,7 @@ export default function Page({ params }: PageProps) {
   }, [id]);
 
 
-  if (!post) return <div>Loading...</div>;
+  if (!post) return <Loading />;
 
   return (
     <div className="max-w-4xl mx-auto p-5 space-y-10 mt-28">

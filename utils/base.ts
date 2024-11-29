@@ -1,1 +1,1 @@
-export const BASE_API_URL = 'http://ec2-34-207-254-156.compute-1.amazonaws.com/api';
+export const BASE_API_URL = process.env.NEXT_PUBLIC_BASE_API;
