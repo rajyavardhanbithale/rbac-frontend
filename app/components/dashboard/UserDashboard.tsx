@@ -13,6 +13,9 @@ export default function UserDashboard({ userInfo, post }: { userInfo: userData, 
         <main className="flex-1 p-6">
             <section>
                 <h2 className="text-2xl font-semibold mb-6">My Posts</h2>
+                {post?.length === 0 && (
+                    <p className="text-gray-500">You have not created any posts yet.</p>
+                )}
                 <div className="flex flex-wrap gap-5">
                     {post?.map((p) => (
                         <Link
